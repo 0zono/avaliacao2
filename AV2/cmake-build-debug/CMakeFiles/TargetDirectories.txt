@@ -1,0 +1,3 @@
+C:/Users/Sapozono/CLionProjects/AV2/cmake-build-debug/CMakeFiles/AV2.dir
+C:/Users/Sapozono/CLionProjects/AV2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Sapozono/CLionProjects/AV2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
