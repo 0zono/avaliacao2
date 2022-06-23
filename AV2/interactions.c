@@ -113,7 +113,7 @@ void attCarro(){
             printf("nao achei");
     }
     fclose(car);
-
+}
 //Função de Adicionar Clientes a um arquivo .dat - Gabs
 void addCliente(){
     Clientes cliente;
@@ -148,4 +148,3 @@ void addCliente(){
     fwrite(&cliente.pontos, sizeof(int), 1, client);
     fclose(client);
     }
-}
