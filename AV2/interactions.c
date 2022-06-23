@@ -147,4 +147,5 @@ void addCliente(){
     printf("Você possuí %d pontos", pontos);
     fwrite(&cliente.pontos, sizeof(int), 1, client);
     fclose(client);
+    }
 }
