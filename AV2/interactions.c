@@ -171,34 +171,28 @@ void updateCarro() {
 //Função de Adicionar Clientes a um arquivo .dat - Gabs
 void addCliente(){
     Clientes cliente;
-    int pontos = 0;
-    FILE *client = fopen("Clientes.dat", "ab");
+    FILE *fp = fopen("Clientes.dat", "ab");
 
     printf("Digite seu CPF: \n");
     scanf(" %s", cliente.cpf);
-    fwrite(&cliente.cpf, sizeof(char), 11, client);
 
     printf("Digite sua idade: \n");
     scanf(" %d", &cliente.idade);
-    fwrite(&cliente.idade, sizeof(char), 1, client);
 
     printf("Digite seu nome: \n");
-    scanf(" %s", cliente.nome);
-    fwrite(&cliente.nome, sizeof(char), 50, client);
+    scanf(" %[^\n]s", cliente.nome);
 
     printf("Digite seu endereço de moradia: \n");
-    scanf(" %[^\n]s", cliente.endereco);
-    fwrite(&cliente.endereco, sizeof(char), 50, client);
+    scanf(" %[^\n]", cliente.endereco);
 
     printf("Digite o seu estado de moradia: \n");
     scanf(" %s", cliente.estado);
-    fwrite(&cliente.estado, sizeof(char), 2, client);
 
     printf("Digite a sua cidade de moradia: \n");
     scanf(" %s", cliente.cidade);
-    fwrite(&cliente.cidade, sizeof(char), 50, client);
 
-    printf("Você possuí %d pontos", pontos);
-    fwrite(&cliente.pontos, sizeof(int), 1, client);
-    fclose(client);
-    }
+    cliente.pontos = 0;
+    fwrite(&cliente, sizeof(Clientes), 1, fp);
+
+    fclose(fp);
+}
