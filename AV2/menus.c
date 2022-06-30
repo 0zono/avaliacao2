@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "regs.h"
-#include "interactions.c"
+#include "interactions.h"
+#include "locacoes.h"
 
 void menu();
 void menuCarro();
 void menuClientes();
 void menuLocacoes();
-void addCarro();
-void lerCarro();
 //menu principal
 void menu(){
     int op;
@@ -39,10 +37,12 @@ void menu(){
 void menuCarro(){
     int opcao;
     printf("1: Cadastrar carro novo\n");
-    //printf("2: Atualizar informações de um carro\n");
-    printf("2: Mostrar informações de um carro\n");
-    printf("3: Disponibilizar carros pra venda\n");
-    printf("4: Localizar carros por modelo\n");
+    printf("2: Atualizar informações de um carro\n");
+    printf("3: Mostrar informações de um carro\n");
+    printf("4: Listar todos os carros\n");
+    printf("5: Disponibilizar carros pra venda\n");
+    printf("6: Localizar carros por modelo\n");
+    printf("7: Voltar para o menu principal\n");
     printf("9: Sair.\n\n");
 
     scanf("%d", &opcao);
@@ -52,13 +52,22 @@ void menuCarro(){
             addCarro();
             break;
         case 2:
-            attCarro();
+            updateCarro();
             break;
         case 3:
-            //vendCarro();
+            mostraCarro();
             break;
         case 4:
-            //encontrarCarro();
+            tdsCarros();
+            break;
+        case 7:
+            menu();
+            break;
+        case 9:
+            printf("até mais.");
+            break;
+        default:
+            printf("Opção inválida");
             break;
 
     }
@@ -69,14 +78,40 @@ void menuCarro(){
 //menu da opção "clientes" do menu principal
 void menuClientes(){
     int op;
-    printf("1: Cadastrar carro cliente\n");
+    printf("1: Cadastrar cliente\n");
     printf("2: Atualizar informações de um cliente\n");
     printf("3: Mostrar locações realizadas\n");
-    printf("4: Listar clientes com mais de 200 pontos\n");
-    printf("4: Listar clientes entre 18 e 25 anos\n");
+    printf("4: Listar todos os clientes\n");
+    printf("5: Listar clientes com mais de 200 pontos\n");
+    printf("6: Listar clientes entre 18 e 25 anos\n");
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
+
+    switch(op){
+        case 1:
+            addCliente();
+            break;
+        case 2:
+            updateCliente();
+            break;
+        case 3:
+            mostraCliente();
+            break;
+        case 4:
+            tdsClientes();
+            break;
+        case 5:
+            menu();
+            break;
+        case 9:
+            printf("até mais.");
+            break;
+        default:
+            printf("Opção inválida");
+            break;
+
+    }
 }
 //menu da opção "Locações" do menu principal
 void menuLocacoes(){
@@ -87,4 +122,21 @@ void menuLocacoes(){
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
+    switch (op) {
+        case 1:
+            loca();
+            break;
+        case 2:
+
+            break;
+        case 3:
+            //mostraLocacao();
+            break;
+        case 9:
+            printf("até mais.");
+            break;
+        default:
+            printf("Opção inválida");
+            break;
+    }
 }

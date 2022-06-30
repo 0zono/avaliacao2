@@ -6,7 +6,6 @@
 #define AV2_INTERACTIONS_H
 #include "interactions.c"
 void addCarro();
-void mostraCarro();
 void updateCarro();
-void addCliente();
+void mostraCarro();
 #endif //AV2_INTERACTIONS_H

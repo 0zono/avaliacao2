@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "menus.c"
-#include  <windows.h>
+#include "menus.h"
+#include <windows.h>
 
 int main() {
-    SetConsoleOutputCP(65001); //permitir a inclusão de caracteres especiais no console.
+    SetConsoleOutputCP(65001);
     menu();
     return 0;
 }

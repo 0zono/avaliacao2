@@ -11,28 +11,28 @@ typedef struct {
     int idade;
     char nome[50];
     char endereco[50];
-    char estado[2];
+    char estado[3];
     char cidade[50];
     int pontos;
 } Clientes;
 
 typedef struct {
     int id;
+    char placa[8];
     char modelo[10];
+    float motor;
+    int ar;
     char cor[6];
     int ano;
-    char placa[8];
-    int ar;
     int kilo;
     float diaria;
     int dispo;
-    float motor;
 } Carros;
 
 typedef struct {
     int hora;
     int dia;
-    int mes;
+    int mes[12];
     int ano;
 } date;
 

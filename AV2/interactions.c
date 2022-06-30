@@ -1,11 +1,17 @@
 #include <stdio.h>
 #include "regs.h"
 #include <string.h>
-
+#include "menus.h"
+void menu();
 void addCarro();
 void mostraCarro();
-void attCarro();
+void updateCarro();
+void tdsCarros();
 void addCliente();
+void updateCLiente();
+void mostraCliente();
+void tdsClientes();
+
 
 void addCarro(){
     Carros carro;
@@ -57,6 +63,27 @@ void addCarro(){
     fclose(car);
 }
 
+void tdsCarros() {
+    Carros carro;
+    FILE *fp = fopen("Carros.dat", "rb");
+    while(!feof(fp)) {
+        fread(&carro, sizeof(Carros), 1, fp);
+        printf("Identificação: %d\n", carro.id);
+        printf("Placa: %s\n", carro.placa);
+        printf("Modelo: %s\n", carro.modelo);
+        printf("Motor: %f\n", carro.motor);
+        printf("Ar condicionado: %d\n", carro.ar);
+        printf("Cor: %s\n", carro.cor);
+        printf("Ano: %d\n", carro.ano);
+        printf("Quilometragem: %d\n", carro.kilo);
+        printf("Valor da diária: %f\n", carro.diaria);
+        printf("Disponibilidade: %d\n", carro.dispo);
+        }
+    system("pause");
+    fclose(fp);
+}
+
+
 void mostraCarro() {
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
@@ -98,10 +125,6 @@ void mostraCarro() {
     }
     system("pause");
     fclose(fp);
-}
-
-
-    system("pause");
 }
 
 void updateCarro() {
@@ -168,7 +191,6 @@ void updateCarro() {
         fclose(fp);
     }
 
-//Função de Adicionar Clientes a um arquivo .dat - Gabs
 void addCliente(){
     Clientes cliente;
     FILE *fp = fopen("Clientes.dat", "ab");
@@ -183,10 +205,10 @@ void addCliente(){
     scanf(" %[^\n]s", cliente.nome);
 
     printf("Digite seu endereço de moradia: \n");
-    scanf(" %[^\n]", cliente.endereco);
-
+    scanf(" %[^\n]s", cliente.endereco);
+    getchar();
     printf("Digite o seu estado de moradia: \n");
-    scanf(" %s", cliente.estado);
+    scanf(" %[^\n]s", cliente.estado);
 
     printf("Digite a sua cidade de moradia: \n");
     scanf(" %s", cliente.cidade);
@@ -195,4 +217,105 @@ void addCliente(){
     fwrite(&cliente, sizeof(Clientes), 1, fp);
 
     fclose(fp);
+}
+
+void updateCliente() {
+    FILE *fp = fopen("Clientes.dat", "r+b");
+    Clientes cli;
+    int size, count, records;
+    char cpf[13];
+    printf("entre com o cpf do cadastro a ser atualizado: \n");
+    scanf("%s", cpf);
+
+    if (fseek(fp, 0, SEEK_END) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    size = ftell(fp);
+    if (size == -1) {
+        printf("Não há registros\n");
+        return;
+    }
+    if (fseek(fp, 0, SEEK_SET) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    records = size / sizeof(Clientes);
+    for (count = 0; count < records; count++) {
+        fread(&cli, sizeof(Clientes), 1, fp);
+        if (strcmp(cli.cpf, cpf) == 0) {
+
+            printf("Entre com o cpf novo do cliente: \n");
+            scanf(" %s", &cli.cpf);
+
+            printf("Entre com a nova idade do cliente: \n");
+            scanf(" %d", &cli.idade);
+
+            printf("Entre com o nome novo do cliente: \n");
+            scanf(" %[^\n]s", cli.nome);
+
+            printf("Entre com o novo endereço do cliente: \n");
+            scanf(" %[^\n]s", cli.endereco);
+
+            printf("Entre com o novo estado de moradia do cliente: \n");
+            scanf(" %[^\n]s", cli.estado);
+
+            printf("Entre com a nova cidade de moradia do cliente: \n");
+            scanf(" %[^\n]s", cli.cidade);
+
+            cli.pontos = 0;
+
+            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);
+            fwrite(&cli, sizeof(Clientes), 1, fp);
+            break;
+        }
+    }
+    fflush(fp);
+    fclose(fp);
+}
+
+void mostraCliente(){
+    FILE *fp = fopen("Clientes.dat", "rb");
+    Clientes cli;
+    int size, count, records;
+    if (fseek(fp, 0, SEEK_END) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    size = ftell(fp);
+    if (size == -1) {
+        printf("Não há registros\n");
+        return;
+    }
+    if (fseek(fp, 0, SEEK_SET) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    records = size / sizeof(Clientes);
+    for (count = 0; count < records; count++) {
+        fread(&cli, sizeof(Clientes), 1, fp);
+        printf("CPF: %s\n", cli.cpf);
+        printf("Idade: %d\n", cli.idade);
+        printf("Nome: %s\n", cli.nome);
+        printf("Endereço: %s\n", cli.endereco);
+        printf("Estado: %s\n", cli.estado);
+        printf("Cidade: %s\n", cli.cidade);
+        printf("Pontos: %d\n", cli.pontos);
+    }
+}
+
+void tdsClientes(){
+    FILE *fp = fopen("Clientes.dat", "rb");
+    Clientes cli;
+    while(fread(&cli, sizeof(Clientes), 1, fp)){
+        printf("CPF: %s\n", cli.cpf);
+        printf("Idade: %d\n", cli.idade);
+        printf("Nome: %s\n", cli.nome);
+        printf("Endereço: %s\n", cli.endereco);
+        printf("Estado: %s\n", cli.estado);
+        printf("Cidade: %s\n", cli.cidade);
+        printf("Pontos: %d\n", cli.pontos);
+    }
+    fclose(fp);
+
 }
