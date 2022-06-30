@@ -1,0 +1,3 @@
+"D:\CLion 2022.1.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\AV2.dir/objects.a
+"D:\CLion 2022.1.1\bin\mingw\bin\ar.exe" qc CMakeFiles\AV2.dir/objects.a @CMakeFiles\AV2.dir\objects1.rsp
+"D:\CLion 2022.1.1\bin\mingw\bin\gcc.exe" -g -Wl,--whole-archive CMakeFiles\AV2.dir/objects.a -Wl,--no-whole-archive -o AV2.exe -Wl,--out-implib,libAV2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\AV2.dir\linklibs.rsp
