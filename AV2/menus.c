@@ -41,7 +41,7 @@ void menuCarro(){
     printf("3: Mostrar informações de um carro\n");
     printf("4: Listar todos os carros\n");
     printf("5: Disponibilizar carros pra venda\n");
-    printf("6: Localizar carros por modelo\n");
+    printf("6: Localizar carros por modelo ou motor\n");
     printf("7: Voltar para o menu principal\n");
     printf("9: Sair.\n\n");
 
@@ -59,6 +59,12 @@ void menuCarro(){
             break;
         case 4:
             tdsCarros();
+            break;
+        case 5:
+
+            break;
+        case 6:
+            searchCarro();
             break;
         case 7:
             menu();
