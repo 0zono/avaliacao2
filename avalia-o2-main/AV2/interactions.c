@@ -7,6 +7,7 @@ void addCarro();
 void mostraCarro();
 void updateCarro();
 void tdsCarros();
+void searchCarro();
 void addCliente();
 void updateCLiente();
 void mostraCliente();
@@ -190,6 +191,48 @@ void updateCarro() {
         fflush(fp);
         fclose(fp);
     }
+
+void searchCarro(){
+    Carros carro;
+    FILE *fp = fopen("Carros.dat", "rb");
+    char modelo[10];
+    size_t count, records;
+    long size;
+    printf("Insira o modelo do carro a ser buscado: \n");
+    scanf("%s", &modelo);
+    if(fseek(fp, 0, SEEK_END) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    size = ftell(fp);
+    if(size == -1) {
+        printf("Não há registros\n");
+        return;
+    }
+    if(fseek(fp, 0, SEEK_SET) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    records = size / sizeof(Carros);
+    for(count = 0; count < records; count++) {
+        fread(&carro, sizeof(Carros), 1, fp);
+
+        if(strcmp(carro.modelo, modelo)==0) {
+            printf("Carros encontrados com o modelo: %s\n", modelo);
+            printf("Identificação: %d\n", carro.id);
+            printf("Placa: %s\n", carro.placa);
+            printf("Modelo: %s\n", carro.modelo);
+            printf("Motor: %f\n", carro.motor);
+            printf("Ar condicionado: %d\n", carro.ar);
+            printf("Cor: %s\n", carro.cor);
+            printf("Ano: %d\n", carro.ano);
+            printf("Quilometragem: %d\n", carro.kilo);
+            printf("Valor da diária: %f\n", carro.diaria);
+            printf("Disponibilidade: %d\n\n", carro.dispo);
+        }
+    }
+    system("pause");
+}
 
 void addCliente(){
     Clientes cliente;
