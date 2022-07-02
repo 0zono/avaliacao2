@@ -67,8 +67,7 @@ void addCarro(){
 void tdsCarros() {
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
-    while(!feof(fp)) {
-        fread(&carro, sizeof(Carros), 1, fp);
+    while(fread(&carro, sizeof(Carros), 1, fp)) {
         printf("Identificação: %d\n", carro.id);
         printf("Placa: %s\n", carro.placa);
         printf("Modelo: %s\n", carro.modelo);
@@ -78,7 +77,12 @@ void tdsCarros() {
         printf("Ano: %d\n", carro.ano);
         printf("Quilometragem: %d\n", carro.kilo);
         printf("Valor da diária: %f\n", carro.diaria);
-        printf("Disponibilidade: %d\n\n", carro.dispo);
+        if (carro.dispo == 1){
+            printf("Disponibilidade: Disponível\n");
+        }
+        else{
+            printf("Disponibilidade: Indisponível\n");
+        }
     }
     system("pause");
     fclose(fp);
