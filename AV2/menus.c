@@ -90,6 +90,7 @@ void menuClientes(){
     printf("4: Listar todos os clientes\n");
     printf("5: Listar clientes com mais de 200 pontos\n");
     printf("6: Listar clientes entre 18 e 25 anos\n");
+    printf("7: Voltar ao menu anterior");
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
@@ -108,8 +109,12 @@ void menuClientes(){
             tdsClientes();
             break;
         case 5:
-            menu();
+            showPontos();
             break;
+        case 6:
+            showIdade();
+        case 7:
+            menu();
         case 9:
             printf("até mais.");
             break;
