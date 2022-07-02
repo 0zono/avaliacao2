@@ -12,7 +12,8 @@ void updateCliente();
 void mostraCliente();
 void tdsClientes();
 void searchCarro();
-
+void showPontos();
+void showIdade();
 
 void addCarro(){
     Carros carro;
@@ -478,4 +479,95 @@ void tdsClientes(){
         menu();
 
     }
+}
+
+void showPontos(){
+    system("cls");
+    FILE *fp = fopen("Clientes.dat", "rb");
+    Clientes cli;
+    int size, records, aux = 0;
+
+    if (fseek(fp, 0, SEEK_END) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    size = ftell(fp);
+    if (size == -1) {
+        printf("Não há registros\n");
+        return;
+    }
+    if (fseek(fp, 0, SEEK_SET) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+
+    printf("Aqui estão todos os clientes com + de 200 pontos:\n\n");
+    records = size / sizeof(Clientes);
+    for (int cont = 0; cont < records; cont++) {
+        fread(&cli, sizeof(Clientes), 1, fp);
+        if (cli.pontos > 200) {
+            aux++;
+            printf("CPF do cliente: %s \n", cli.cpf);
+            printf("Idade do cliente: %d\n ", cli.idade);
+            printf("Nome do cliente: %s \n", cli.nome);
+            printf("Endereço do cliente: %s \n", cli.endereco);
+            printf("Estado de moradia do cliente: %s \n", cli.estado);
+            printf("Cidade de moradia do cliente: %s \n", cli.cidade);
+            printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
+
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);
+            break;
+        }
+    }
+    if(aux == 0){
+        printf("Não há nenhum cliente com + de 200 pontos. \n\n");
+    }
+    fclose(fp);
+    system("pause");
+}
+
+//Função para mostrar os clientes com faixa de idade de 18 a 25 anos.
+void showIdade(){
+    system("cls");
+    FILE *fp = fopen("Clientes.dat", "rb");
+    Clientes cli;
+    int size, count, records, aux;
+
+    //Funções para verificar erros ou inexistência do registro.
+    if (fseek(fp, 0, SEEK_END) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    size = ftell(fp);
+    if (size == -1) {
+        printf("Não há registros\n");
+        return;
+    }
+    if (fseek(fp, 0, SEEK_SET) == -1) {
+        printf("Erro ao localizar o registro\n");
+        return;
+    }
+    records = size / sizeof(Clientes);
+    printf("Aqui estão todos os clientes entre 18 a 25 anos: \n\n");
+    for (count = 0; count < records; count++) {
+        fread(&cli, sizeof(Clientes), 1, fp);
+        if ((cli.idade >= 18) && (cli.idade <= 25)) {
+            aux++;
+            printf("CPF do cliente: %s \n", cli.cpf);
+            printf("Idade do cliente: %d\n ", cli.idade);
+            printf("Nome do cliente: %s \n", cli.nome);
+            printf("Endereço do cliente: %s \n", cli.endereco);
+            printf("Estado de moradia do cliente: %s \n", cli.estado);
+            printf("Cidade de moradia do cliente: %s \n", cli.cidade);
+            printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
+
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);
+            break;
+        }
+    }
+    fclose(fp);
+    if (aux == 0){
+        printf("Não foram encontrados nos registros clientes nessa faixa de idade.\n\n");
+    }
+    system("pause");
 }
