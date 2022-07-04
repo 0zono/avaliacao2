@@ -15,36 +15,37 @@ void searchCarro();
 void showPontos();
 void showIdade();
 
+//Função para adicionar um carro (ainda não nos registros) ao arquivo "Carros.dat".
 void addCarro(){
     Carros carro;
     char dnv;
     FILE *car = fopen("Carros.dat", "ab");
 
-    printf("entre com a indentificação do carro: \n");
+    printf("Entre com a indentificação do carro: \n");
     scanf("%d", &carro.id);
 
-    printf("entre com a placa do carro: \n");
+    printf("Entre com a placa do carro: \n");
     scanf(" %s", carro.placa);
 
-    printf("entre com o modelo do carro: \n");
+    printf("Entre com o modelo do carro: \n");
     scanf(" %s", carro.modelo);
 
-    printf("entre com o motor do carro: \n");
+    printf("Entre com o motor do carro: \n");
     scanf(" %f", &carro.motor);
 
-    printf("entre se o carro possui ar condicionado ou não (1 = possui/0 = não possui): \n");
+    printf("Entre se o carro possui ar condicionado ou não (1 = possui/0 = não possui): \n");
     scanf(" %d", &carro.ar);
 
-    printf("entre com a cor do carro (preto ou cinza): \n");
+    printf("Entre com a cor do carro (preto ou cinza): \n");
     scanf(" %s", carro.cor);
 
-    printf("entre com o ano do carro: \n");
+    printf("Entre com o ano do carro: \n");
     scanf(" %d", &carro.ano);
 
-    printf("entre com a quilometragem do carro: \n");
+    printf("Entre com a quilometragem do carro: \n");
     scanf(" %d", &carro.kilo);
 
-    printf("entre com o valor da diária do carro: \n");
+    printf("Entre com o valor da diária do carro: \n");
     scanf( " %f", &carro.diaria);
 
     carro.dispo = 1;
@@ -65,6 +66,7 @@ void addCarro(){
     fclose(car);
 }
 
+//Função feita para listar todos os carros dos registros (disponíveis ou não).
 void tdsCarros() {
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
@@ -89,7 +91,7 @@ void tdsCarros() {
     fclose(fp);
 }
 
-
+//Função feita para mostrar ao usuário um veículo através do seu código de identificação (inserido no momento de seu cadastro no sistema). 
 void mostraCarro() {
     system("cls");
     Carros carro;
@@ -98,7 +100,7 @@ void mostraCarro() {
     int id;
     size_t count, records;
     long size;
-    printf("entre com a indentificação do carro: \n");
+    printf("Entre com a indentificação do carro: \n");
     scanf("%d", &id);
     if(fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o registro\n");
@@ -146,13 +148,14 @@ void mostraCarro() {
     fclose(fp);
 }
 
+//Função feita para atualizar um veículo que já está no sistema, a partir, também, de seu código de identificação.
 void updateCarro() {
     system("cls");
     FILE *fp = fopen("Carros.dat", "r+b");
     Carros carro;
     char op;
     int id, size, count, records;
-    printf("entre com a indentificação do carro a ser atualizado: \n");
+    printf("Entre com a indentificação do carro a ser atualizado: \n");
     scanf("%d", &id);
 
     if (fseek(fp, 0, SEEK_END) == -1) {
@@ -173,34 +176,34 @@ void updateCarro() {
         fread(&carro, sizeof(Carros), 1, fp);
         if (carro.id == id) {
             printf("Oie");
-            printf("entre com a identificação nova do carro: \n");
+            printf("Entre com a identificação nova do carro: \n");
             scanf("%d", &carro.id);
 
-            printf("entre com a nova placa do carro: \n");
+            printf("Entre com a nova placa do carro: \n");
             scanf("%s", carro.placa);
 
-            printf("entre com o novo modelo do carro: \n");
+            printf("Entre com o novo modelo do carro: \n");
             scanf("%s", carro.modelo);
 
-            printf("entre com o novo motor do carro: \n");
+            printf("Entre com o novo motor do carro: \n");
             scanf("%f", &carro.motor);
 
-            printf("entre se o carro possui ar condicionado ou não (1 = possui/0 = não possui): \n");
+            printf("Entre se o carro possui ar condicionado ou não (1 = possui/0 = não possui): \n");
             scanf("%d", &carro.ar);
 
-            printf("entre com a nova cor do carro (preto ou cinza): \n");
+            printf("Entre com a nova cor do carro (preto ou cinza): \n");
             scanf("%s", carro.cor);
 
-            printf("entre com o novo ano do carro: \n");
+            printf("Entre com o novo ano do carro: \n");
             scanf("%d", &carro.ano);
 
-            printf("entre com a nova quilometragem do carro: \n");
+            printf("Entre com a nova quilometragem do carro: \n");
             scanf("%d", &carro.kilo);
 
-            printf("entre com a novo valor da diária do carro: \n");
+            printf("Entre com a novo valor da diária do carro: \n");
             scanf("%f", &carro.diaria);
 
-            printf("entre com a nova disponibilidade do carro: \n");
+            printf("Entre com a nova disponibilidade do carro: \n");
             scanf("%d", &carro.dispo);
 
             fseek(fp, -(int)sizeof(Carros), SEEK_CUR);
@@ -222,6 +225,7 @@ void updateCarro() {
     }
 }
 
+//Função para buscar um veículo a partir de seu modelo ou motor.
 void searchCarro(){
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
@@ -230,10 +234,10 @@ void searchCarro(){
     int op;
     size_t count, records;
     long size;
-    printf("1: buscar por modelo\n2:buscar por motor \n");
+    printf("1: Buscar por modelo\n2: Buscar por motor \n"); //Pergunta-se ao usuário que tipo de busca ele deseja.
     scanf("%d", &op);
     switch (op) {
-        case 1:
+        case 1: //Busca através do modelo do carro (Polo, Corolla, Civic, ...)
             printf("Insira o modelo do carro a ser buscado: \n");
             scanf("%s", &modelo);
             if(fseek(fp, 0, SEEK_END) == -1) {
@@ -268,8 +272,8 @@ void searchCarro(){
                 }
             }
             break;
-        case 2:
-            printf("Insira o modelo do carro a ser buscado: \n");
+        case 2: //Busca através do motor do carro (1.8, 1.0, 2.0, ...).
+            printf("Insira o motor do carro a ser buscado: \n");
             scanf("%f", &motor);
             if(fseek(fp, 0, SEEK_END) == -1) {
                 printf("Erro ao localizar o registro\n");
@@ -307,6 +311,7 @@ void searchCarro(){
     system("pause");
 }
 
+//Função para adicionar clientes aos registros do sistema.
 void addCliente(){
     system("cls");
     Clientes cliente;
@@ -335,7 +340,7 @@ void addCliente(){
     fwrite(&cliente, sizeof(Clientes), 1, fp);
     system("cls");
     getchar();
-    printf("Deseja adicionar mais um cliente?(s/S=Sim) \n");
+    printf("Deseja adicionar mais um cliente?(s/S=Sim, n/N=Não) \n");
     scanf(" %d", &op);
     if (op != 's' && op != 'S'){
         fclose(fp);
@@ -349,6 +354,7 @@ void addCliente(){
     fclose(fp);
 }
 
+//Função feita para atualizar o cadastro de um cliente dos registros.
 void updateCliente() {
     system("cls");
     FILE *fp = fopen("Clientes.dat", "r+b");
