@@ -5,6 +5,7 @@
 void loca();
 void mostraLocacao();
 void devolucao();
+void venCarro();
 
 
 void loca() {
@@ -71,6 +72,16 @@ void loca() {
     fclose(car);
     fclose(cli);
     fclose(loc);
+    printf("Deseja realizar outra locacao? (s/n) ");
+    char op;
+    scanf("%c", &op);
+    if (op == 's' && op == 'S') {
+        system("cls");
+        loca();
+    } else {
+        system("cls");
+        menu();
+    }
 }
 
 void mostraLocacao(){
@@ -101,6 +112,16 @@ void mostraLocacao(){
         }
     }
     system("pause");
+    fclose(loc);
+    printf("Deseja voltar ao menu principal? (s/n) ");
+    char op;
+    scanf("%c", &op);
+    if (op == 's' && op == 'S') {
+        system("cls");
+        menu();
+    } else {
+        system("cls");
+    }
 }
 
 void devolucao() {
@@ -137,7 +158,14 @@ void devolucao() {
             scanf("%d", &lc.devolucao.ano);
             printf("Hora: ");
             scanf("%d", &lc.devolucao.hora);
-            dias = ((lc.devolucao.ano-lc.inicio.ano)*ano) + (mes[lc.devolucao.mes-1]+lc.devolucao.dia)-(mes[lc.inicio.mes-1]+lc.inicio.dia);
+            if(lc.devolucao.hora-lc.inicio.hora > 0) {
+                dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
+                       (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
+            }
+            else{
+                dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
+                       (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
+            }
             lc.valor = lc.valor * dias;
             pontos = (int)lc.valor;
             lc.fina = 1;
@@ -173,7 +201,76 @@ void devolucao() {
             fclose(car);
             fclose(cli);
             fclose(loc);
+            printf("Locacao finalizada com sucesso.\n\n");
+            printf("Deseja realizar outra locação?? (s/n) ");
+            char op;
+            scanf("%c", &op);
+            if (op == 's' && op == 'S') {
+                system("cls");
+                devolucao();
+            } else {
+                system("cls");
+                menu();
+            }
             break;
         }
+    }
+}
+
+void  venCarro() {
+    FILE *car = fopen("Carros.dat", "rb+");
+    FILE *vend = fopen("Vendas.csv", "a");
+    printf("1: disponibilizar todos os carros fabricados a mais de 3 anos para venda\n2: escolher um carro específico para venda\n");
+    int op;
+    scanf(" %d", &op);
+    switch (op) {
+        case 1:
+            system("cls");
+            printf("Carros disponiveis para venda:\n");
+            Carros carro;
+            fseek(car, 0, SEEK_END);
+            size_t count, records;
+            long size;
+            size = ftell(car);
+            records = size / sizeof(Carros);
+            fseek(car, 0, SEEK_SET);
+            for (count = 0; count < records; count++) {
+                fread(&carro, sizeof(Carros), 1, car);
+                if (2022 - carro.ano > 3) {
+                    fprintf(vend, "%s; ", carro.modelo);
+                    fflush(vend);
+                }
+            }
+            fclose(car);
+            fclose(vend);
+            printf("\n");
+            printf("Deseja realizar outra venda?? (s/n) ");
+            char op;
+            scanf("%c", &op);
+            if (op == 's' && op == 'S') {
+                system("cls");
+                venCarro();
+            } else {
+                system("cls");
+                menu();
+            }
+            break;
+        case 2:
+            system("cls");
+            printf("Digite o ID do carro: ");
+            int id;
+            scanf("%d", &id);
+            Carros carro2;
+            fseek(car, 0, SEEK_END);
+            size = ftell(car);
+            records = size / sizeof(Carros);
+            fseek(car, 0, SEEK_SET);
+            for (count = 0; count < records; count++) {
+                fread(&carro2, sizeof(Carros), 1, car);
+                if (carro2.id == id) {
+                    fprintf(vend, "%s; ", carro2.modelo);
+                }
+
+            }
     }
 }

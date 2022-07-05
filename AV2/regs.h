@@ -32,18 +32,19 @@ typedef struct {
 typedef struct {
     int hora;
     int dia;
-    int mes[12];
+    int mes;
     int ano;
 } date;
 
 typedef struct {
     int idloca;
     int idcarro;
-    int cpflocatario;
+    char cpflocatario[13];
     int kiloinicial;
     int kilofinal;
     float valor;
     date inicio;
     date devolucao;
+    int fina;
 }Locacoes;
 #endif //AV2_REGS_H

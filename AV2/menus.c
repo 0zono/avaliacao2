@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <synchapi.h>
 #include "interactions.h"
 #include "locacoes.h"
 
@@ -11,16 +10,10 @@ void menuLocacoes();
 //menu principal
 void menu(){
     int op;
-    //Interface inicial do programa
-    printf("##############################################\n");
-    printf("Programa Empresarial para Locação de Veículos\n");
-    printf("##############################################\n\n");
-    
-    printf("Selecione a opção: \n 1: Carros \n 2: Clientes \n 3: Locações \n 9: Sair.\n\n");
+    printf("Selecione a opção: \n 1: carros \n 2: clientes \n 3: locações \n 9: sair.\n\n");
     scanf("%d", &op);
-    
-    system("cls"); //Limpa a tela.
-    //Verifica se as opções são válidas e chamam as funções de cada opção.
+    //verifica se as opções são válidas e chamam as funções de cada opção.
+    system("cls"); //limpa a tela
     switch(op){
         case 1:
             menuCarro();
@@ -32,19 +25,15 @@ void menu(){
             menuLocacoes();
             break;
         case 9:
-            printf("Até mais");
-            Sleep(1500);
+            printf("até mais");
             break;
         default:
-            printf("ERRO: Insira uma opção válida !\a");
-            Sleep(2000);
-            system("cls");
-            menu();
+            printf("Opção inválida. Favor selecionar uma opção válida.");
             break;
     }
 
 }
-//Menu da opção "carros" do menu principal.
+//menu da opção "carros" do menu principal
 void menuCarro(){
     int opcao;
     printf("1: Cadastrar carro novo\n");
@@ -55,9 +44,9 @@ void menuCarro(){
     printf("6: Localizar carros por modelo ou motor\n");
     printf("7: Voltar para o menu principal\n");
     printf("9: Sair.\n\n");
+
     scanf("%d", &opcao);
-    
-    system("cls");//Limpa a tela.
+
     switch(opcao){
         case 1:
             addCarro();
@@ -72,7 +61,7 @@ void menuCarro(){
             tdsCarros();
             break;
         case 5:
-
+            venCarro();
             break;
         case 6:
             searchCarro();
@@ -81,34 +70,30 @@ void menuCarro(){
             menu();
             break;
         case 9:
-            printf("Até mais.\n");
-            Sleep(1500);
+            printf("até mais.");
             break;
         default:
-            printf("ERRO: Insira uma opção válida !\a");
-            Sleep(2000);
-            system("cls");
-            menuCarro();
+            printf("Opção inválida");
             break;
+
     }
 
 
 }
 
-//Menu da opção "clientes" do menu principal.
+//menu da opção "clientes" do menu principal
 void menuClientes(){
     int op;
     printf("1: Cadastrar cliente\n");
     printf("2: Atualizar informações de um cliente\n");
-    printf("3: Mostrar o cadastro de um cliente específico\n");
+    printf("3: Mostrar locações realizadas\n");
     printf("4: Listar todos os clientes\n");
     printf("5: Listar clientes com mais de 200 pontos\n");
     printf("6: Listar clientes entre 18 e 25 anos\n");
-    printf("7: Voltar ao menu anterior");
     printf("9: Sair.\n\n");
+
     scanf("%d", &op);
-    
-    system("cls");//Limpa a tela.
+
     switch(op){
         case 1:
             addCliente();
@@ -127,50 +112,41 @@ void menuClientes(){
             break;
         case 6:
             showIdade();
-        case 7:
-            menu();
+            break;
         case 9:
-            printf("Até mais.\n");
-            Sleep(1500);
+            printf("até mais.");
             break;
         default:
-            printf("ERRO: Insira uma opção válida !\a");
-            Sleep(2000);
-            system("cls");
+            printf("Opção inválida");
             menuClientes();
             break;
 
     }
 }
-//Menu da opção "Locações" do menu principal.
+//menu da opção "Locações" do menu principal
 void menuLocacoes(){
     int op;
     printf("1: Nova locação\n");
     printf("2: Encerrar locação\n");
     printf("3: Listar locações atuais.\n");
     printf("9: Sair.\n\n");
+
     scanf("%d", &op);
-    
-    system("cls");//Limpa a tela.
     switch (op) {
         case 1:
             loca();
             break;
         case 2:
-
+            devolucao();
             break;
         case 3:
-            //mostraLocacao();
+            mostraLocacao();
             break;
         case 9:
-            printf("Até mais.\n");
-            Sleep(1500);
+            printf("até mais.");
             break;
         default:
-            printf("ERRO: Insira uma opção válida !\a");
-            Sleep(2000);
-            system("cls");
-            menuLocacoes();
+            printf("Opção inválida");
             break;
     }
 }
