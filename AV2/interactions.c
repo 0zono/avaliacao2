@@ -310,21 +310,22 @@ void searchCarro(){
     fclose(fp);
     printf("Deseja buscar mais um carro?(s/S=Sim) \n");
     scanf(" %c", &op);
-    if (op != 's' && op != 'S'){
-        system("cls");
-        menu();
-    }
-    else{
+    if (op == 'S' || op == 's'){
         system("cls");
         searchCarro();
     }
+    else{
+        system("cls");
+        menu();
+    }
 }
 
+//Função para adicionar um cliente ao arquivo "Clientes.dat".
 void addCliente(){
-    system("cls");
+    system("cls"); //Limpa a tela do programa.
     Clientes cliente;
     char op;
-    FILE *fp = fopen("Clientes.dat", "ab");
+    FILE *fp = fopen("Clientes.dat", "ab");//Cria o arquivo binário "Clientes.dat". Se ele já existir, então apenas abre em modo de escrita.
 
     printf("Digite seu CPF: \n");
     scanf(" %s", cliente.cpf);
@@ -348,32 +349,36 @@ void addCliente(){
     fwrite(&cliente, sizeof(Clientes), 1, fp);
     printf("Deseja adicionar mais um cliente?(s/S=Sim) \n");
     scanf(" %c", &op);
-    if (op != 's' && op != 'S'){
-        fclose(fp);
-        menu();
-
-    }
-    else{
+    //Operação de verificação da resposta do usuário para adicionar ou não outro cliente.
+    if (op == 'S' || op == 's'){//Fecha o arquivo e inicia a função novamente para adicionar outro cliente.
         fclose(fp);
         addCliente();
+
     }
-    fclose(fp);
+    else{//Fecha o arquivo e retorna ao menu anterior (principal).
+        fclose(fp);
+        menu();
+    }
+    fclose(fp);//Usado para garantir que o arquivo feche em caso de erros.
 }
 
+//Função feita para atualizar o cadastro de um cliente já existente no sistema.
 void updateCliente() {
-    system("cls");
-    FILE *fp = fopen("Clientes.dat", "r+b");
+    system("cls"); //Limpa a tela do programa.
+    FILE *fp = fopen("Clientes.dat", "r+b"); //Abre o arquivo com o modo de leitura e escrita em binário.
     Clientes cli;
-    int size, count, records;
+    int size, count, records;//Variáveis para manipular o tamanho do arquivo e os laços da estrutura de repetição FOR.
     char cpf[13], dnv;
-    printf("entre com o cpf do cadastro a ser atualizado: \n");
+    printf("Entre com o cpf do cadastro a ser atualizado: \n"); //Solicita o CPF do cliente.
     scanf("%s", cpf);
-
+    getchar();
+    
+    //Sequência de 3 if's para verificar se há registros ou não no arquivo.
     if (fseek(fp, 0, SEEK_END) == -1) {
-        printf("Erro ao localizar o registro\n");
+        printf("Erro ao localizar o arquivo\n");
         return;
     }
-    size = ftell(fp);
+    size = ftell(fp); //Define o tamanho do arquivo atribuindo o tamanho do arquivo "fp" para a variável inteira "size".
     if (size == -1) {
         printf("Não há registros\n");
         return;
@@ -382,8 +387,8 @@ void updateCliente() {
         printf("Erro ao localizar o registro\n");
         return;
     }
-    records = size / sizeof(Clientes);
-    for (count = 0; count < records; count++) {
+    records = size / sizeof(Clientes); //Atribui a "records" o tamanho do arquivo baseado na Struct "Clientes".
+    for (count = 0; count < records; count++) {//Laço FOR para buscar o cliente por CPF para atualizá-lo.
         fread(&cli, sizeof(Clientes), 1, fp);
         if (strcmp(cli.cpf, cpf) == 0) {
 
@@ -404,34 +409,38 @@ void updateCliente() {
 
             cli.pontos = 0;
 
-            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);
-            fwrite(&cli, sizeof(Clientes), 1, fp);
+            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR); //Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado. 
+            fwrite(&cli, sizeof(Clientes), 1, fp); //Escreve todos os dados no arquivo.
             break;
         }
     }
-    fflush(fp);
+    fflush(fp);//Garante que as informações sejam gravadas no arquivo.
     printf("Deseja atualizar outro cliente? s=Sim/n=Não (Voltar ao menu anterior)\n");
     scanf(" %c", &dnv);
-    if (dnv != 's' && dnv != 'S'){
-        fclose(fp);
-        menu();
-    }
-    else{
+    //Operação de verificação da resposta do usuário para atualizar ou não outro cliente.
+    if (dnv == 'S' || dnv == 's'){//Fecha o arquivo e inicia a função novamente para atualizar outro cliente.
         fclose(fp);
         updateCliente();
     }
-    fclose(fp);
+    else{//Fecha o arquivo e retorna ao menu anterior (principal).
+        fclose(fp);
+        menu();
+    }
+    fclose(fp);//Usado para garantir que o arquivo feche em caso de erros.
 }
 
+//Função feita para buscar um cliente já existente no sistema e mostrar seus dados cadastrais.
 void mostraCliente(){
-    system("cls");
-    FILE *fp = fopen("Clientes.dat", "rb");
+    system("cls");//Limpa a tela do programa.
+    FILE *fp = fopen("Clientes.dat", "rb");//Abre o arquivo "Clientes.dat" em modo de leitura.
     Clientes cli;
     char cpf[13];
     printf("Digite o CPF do cliente a ser encontrado: \n");
     scanf(" %s", cpf);
     getchar();
-    int size, count, records;
+    int size, count, records;//Variáveis para manipular o tamanho do arquivo e os laços da estrutura de repetição FOR.
+    
+    //Sequência de 3 if's para verificar se há registros ou não no arquivo.
     if (fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o registro\n");
         return;
@@ -445,8 +454,8 @@ void mostraCliente(){
         printf("Erro ao localizar o registro\n");
         return;
     }
-    records = size / sizeof(Clientes);
-    for (count = 0; count < records; count++) {
+    records = size / sizeof(Clientes);//Atribui a "records" o tamanho do arquivo baseado na Struct "Clientes".
+    for (count = 0; count < records; count++) {//Laço FOR que imprime os dados cadastrais do cliente registrado com o CPF específico.
         fread(&cli, sizeof(Clientes), 1, fp);
         if (strcmp(cli.cpf, cpf) == 0) {
             printf("CPF do cliente: %s \n", cli.cpf);
@@ -457,30 +466,31 @@ void mostraCliente(){
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n", cli.pontos);
 
-            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);
-            break;
+            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            break;//Rompe o laço, já que o cliente foi encontrado.
         }
     }
-    fclose(fp);
-    printf("Deseja buscar outro cliente? s=Sim/n=Não (Voltar ao menu anterior)\n");
+    fclose(fp);//Fecha o arquivo.
+    printf("Deseja buscar outro cliente? s=Sim/n=Não (Voltar ao menu anterior)\n");//Questiona o usuário se quer cadastrar outro cliente.
     char dnv;
     scanf(" %c", &dnv);
-    if (dnv != 's' && dnv != 'S'){
-        fclose(fp);
-        menu();
-    }
-    else{
+    if (dnv == 'S' || dnv == 's'){//Resposta Positiva: Fecha o arquivo e reinicia a função.
         fclose(fp);
         mostraCliente();
     }
+    else{//Resposta Negativa: Fecha o arquivo e retorna ao menu anterior (principal).
+        fclose(fp);
+        menu();
+    }
 }
 
+//Função para listar todos os clientes do arquivo "Clientes.dat".
 void tdsClientes(){
-    system("cls");
-    FILE *fp = fopen("Clientes.dat", "rb");
+    system("cls");//Limpa a tela.
+    FILE *fp = fopen("Clientes.dat", "rb");//Abre o arquivo "Clientes.dat" em modo de leitura.
     Clientes cli;
     char dnv;
-    while(fread(&cli, sizeof(Clientes), 1, fp)){
+    while(fread(&cli, sizeof(Clientes), 1, fp)){//Laço WHILE para listar todos os clientes cadastrados no arquivo "Clientes.dat".
         printf("CPF: %s\n", cli.cpf);
         printf("Idade: %d\n", cli.idade);
         printf("Nome: %s\n", cli.nome);
@@ -489,7 +499,7 @@ void tdsClientes(){
         printf("Cidade: %s\n", cli.cidade);
         printf("Pontos: %d\n\n", cli.pontos);
     }
-    fclose(fp);
+    fclose(fp);//Fecha o arquivo.
     printf("Deseja voltar ao menu principal? s=Sim/n=Não(irá fechar o programa.)\n");
     scanf(" %c", &dnv);
     if (dnv != 's' && dnv != 'S'){
