@@ -171,7 +171,7 @@ void devolucao() {
             else{ //caso seja entregado com antecedência, haverá um desconto.
                 dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
                        (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
-                        desc = (lc.valor/24)*c.devolucao.hora-lc.inicio.hora;
+                        desc = (lc.valor/24)*lc.devolucao.hora-lc.inicio.hora;
                         lc.valor = (lc.valor*dias)-desc;
             }
    
