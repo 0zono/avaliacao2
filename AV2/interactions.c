@@ -503,24 +503,23 @@ void tdsClientes(){
     fclose(fp);//Fecha o arquivo.
     printf("Deseja voltar ao menu principal? s=Sim/n=Não(irá fechar o programa.)\n");
     scanf(" %c", &dnv);
-    if (dnv != 's' && dnv != 'S'){
-        fclose(fp);
-
-    }
-    else{
+    if (dnv == 'S' || dnv == 's'){//Fecha o arquivo e volta ao menu principal.
         fclose(fp);
         menu();
-
+    }
+    else{//Fecha o arquivo e encerra o programa.
+        fclose(fp);
     }
 }
 
+//Função para listar todos os clientes na faixa de 18 a 25 anos de idade.
 void showIdade(){
-    system("cls");
-    FILE *fp = fopen("Clientes.dat", "rb");
+    system("cls");//Limpa a tela do programa.
+    FILE *fp = fopen("Clientes.dat", "rb");//Abre um arquivo binário em modo de leitura.
     Clientes cli;
-    int size, count, records, aux;
+    int size, count, records, aux = 0;
 
-    //Funções para verificar erros ou inexistência do registro.
+    //Sequência de 3 if's para verificar erros ou inexistência do registro.
     if (fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o registro\n");
         return;
@@ -536,10 +535,10 @@ void showIdade(){
     }
     records = size / sizeof(Clientes);
     printf("Aqui estão todos os clientes entre 18 a 25 anos: \n\n");
-    for (count = 0; count < records; count++) {
+    for (count = 0; count < records; count++) {//Laço FOR para fazer a verificação e mostrar quais clientes estão na faixa requerida no printf acima.
         fread(&cli, sizeof(Clientes), 1, fp);
         if ((cli.idade >= 18) && (cli.idade <= 25)) {
-            aux++;
+            aux++;//Adição unária à variável "aux" para uso no if posterior
             printf("CPF do cliente: %s \n", cli.cpf);
             printf("Idade do cliente: %d\n ", cli.idade);
             printf("Nome do cliente: %s \n", cli.nome);
@@ -548,23 +547,25 @@ void showIdade(){
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
 
-            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);
-            break;
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            break;//Finaliza o if.
         }
     }
-    fclose(fp);
-    if (aux == 0){
+    fclose(fp);//Fecha o arquivo
+    if (aux == 0){//Verifica se o laço FOR for detectado detectou algum cliente na faixa de idade. Se não detectou, então exibe a mensagem abaixo.
         printf("Não foram encontrados nos registros clientes nessa faixa de idade.\n\n");
     }
-    system("pause");
+    system("pause");//Pausa a execução do programa para que se possam ver os resultados da ação anterior.
 }
 
+//Função para mostrar os clientes com + de 200 pontos.
 void showPontos(){
-    system("cls");
-    FILE *fp = fopen("Clientes.dat", "rb");
+    system("cls");//Limpa a tela.
+    FILE *fp = fopen("Clientes.dat", "rb");//Abre um arquivo binário no modo de leitura.
     Clientes cli;
     int size, records, aux = 0;
 
+    //Sequência de 3 if's para verificar erros ou inexistência do registro.
     if (fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o registro\n");
         return;
@@ -581,7 +582,7 @@ void showPontos(){
 
     printf("Aqui estão todos os clientes com + de 200 pontos:\n\n");
     records = size / sizeof(Clientes);
-    for (int cont = 0; cont < records; cont++) {
+    for (int cont = 0; cont < records; cont++) {//Laço FOR para exibir todos os clientes com + de 200 pontos.
         fread(&cli, sizeof(Clientes), 1, fp);
         if (cli.pontos > 200) {
             aux++;
@@ -593,13 +594,13 @@ void showPontos(){
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
 
-            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);
-            break;
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            break;//Finaliza o if.
         }
     }
-    if(aux == 0){
+    if(aux == 0){//Verifica se o laço FOR for detectado detectou algum cliente na faixa de idade. Se não detectou, então exibe a mensagem abaixo.
         printf("Não há nenhum cliente com + de 200 pontos. \n\n");
     }
-    fclose(fp);
-    system("pause");
+    fclose(fp);//Fecha o arquivo.
+    system("pause");//Pausa o sistema para que possam ser vistos os clientes.
 }
