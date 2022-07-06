@@ -7,7 +7,7 @@ void mostraLocacao();
 void devolucao();
 void venCarro();
 
-
+//essa função cria locações, e atualiza os dados nos arquivos de clientes e carros.
 void loca() {
     FILE *car = fopen("Carros.dat", "rb+");
     FILE *cli = fopen("Clientes.dat", "rb+");
@@ -87,11 +87,12 @@ void loca() {
 void mostraLocacao(){
     FILE *loc = fopen("Locacoes.dat", "rb");
     Locacoes lc;
+    int cont;
     size_t count, records;
     long size;
     fseek(loc, 0, SEEK_END);
     size = ftell(loc);
-    records = size / sizeof(Locacoes);
+    records = size / sizeof(Locacoes); //dividindo o arquivo pelo tamanho de registros, para ser usada no FOR
     fseek(loc, 0, SEEK_SET);
     for(count = 0; count < records; count++) {
         fread(&lc, sizeof(Locacoes), 1, loc);
@@ -102,15 +103,18 @@ void mostraLocacao(){
         printf("Kilometragem final: %d\n", lc.kilofinal);
         printf("Data de inicio: %d/%d/%d\n", lc.inicio.dia, lc.inicio.mes, lc.inicio.ano);
         printf("Hora de inicio: %d\n", lc.inicio.hora);
-        if(lc.fina == 1){
+        if(lc.fina == 1){ //if checa se a locação se encontra finalizada ou não.
             printf("Data de devolucao: %d/%d/%d\n", lc.devolucao.dia, lc.devolucao.mes, lc.devolucao.ano);
             printf("Hora de devolucao: %d\n", lc.devolucao.hora);
             printf("Valor final da locacao: %.2f\n\n", lc.valor);
         }
         else{
+            //incrementa cont toda vez que detecta uma locação em andamento.
+            cont++;
             printf("Locacao em andamento.\n\n");
         }
     }
+    printf("Quantidade de locações em andamento no total: %d", cont);
     system("pause");
     fclose(loc);
     printf("Deseja voltar ao menu principal? (s/n) ");
@@ -131,10 +135,11 @@ void devolucao() {
     Locacoes lc;
     Carros carro;
     Clientes cliente;
-    int mes[12] = {0,31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, };
+    int mes[12] = {0,31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, }; //somatória da quantidade de dias até um mes.
     int ano = 365;
     int dias;
     int pontos;
+    float desc;
     int idloca;
     printf("Digite a identificacao da locacao: ");
     scanf("%d", &idloca);
@@ -161,12 +166,15 @@ void devolucao() {
             if(lc.devolucao.hora-lc.inicio.hora > 0) {
                 dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
                        (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
+                        lc.valor = lc.valor * dias;
             }
-            else{
+            else{ //caso seja entregado com antecedência, haverá um desconto.
                 dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
                        (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
+                        desc = (lc.valor/24)*c.devolucao.hora-lc.inicio.hora;
+                        lc.valor = (lc.valor*dias)-desc;
             }
-            lc.valor = lc.valor * dias;
+   
             pontos = (int)lc.valor;
             lc.fina = 1;
             fseek(loc, -(int)sizeof(Locacoes), SEEK_CUR);
