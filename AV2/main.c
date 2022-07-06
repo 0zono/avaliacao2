@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "menus.h"
 #include <windows.h>
 
