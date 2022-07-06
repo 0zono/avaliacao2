@@ -78,6 +78,7 @@ void menuCarro(){
             break;
         case 7:
             menu();
+            system("cls");
             break;
         case 9:
             printf("Até mais.");
@@ -106,6 +107,7 @@ void menuClientes(){
     printf("4: Listar todos os clientes\n");
     printf("5: Listar clientes com mais de 200 pontos\n");
     printf("6: Listar clientes entre 18 e 25 anos\n");
+    printf("7: Voltar para o menu principal\n");
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
@@ -129,6 +131,10 @@ void menuClientes(){
         case 6:
             showIdade();
             break;
+        case 7:
+            menu();
+            system("cls");
+            break;
         case 9:
             printf("Até mais.");
             system("pause");
@@ -151,6 +157,7 @@ void menuLocacoes(){
     printf("1: Nova locação\n");
     printf("2: Encerrar locação\n");
     printf("3: Listar locações atuais.\n");
+    printf("4: Voltar para o menu principal\n");
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
@@ -163,6 +170,10 @@ void menuLocacoes(){
             break;
         case 3:
             mostraLocacao();
+            break;
+        case 4:
+            menu();
+            system("cls");
             break;
         case 9:
             printf("Até mais.");
