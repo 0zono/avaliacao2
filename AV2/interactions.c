@@ -13,7 +13,7 @@ void mostraCliente();
 void tdsClientes();
 void searchCarro();
 
-
+//esta função adiciona carros no fim do arquivo.
 void addCarro(){
     Carros carro;
     char dnv;
@@ -47,7 +47,7 @@ void addCarro(){
     scanf( " %f", &carro.diaria);
 
     carro.dispo = 1;
-    fwrite(&carro, sizeof(Carros), 1, car);
+    fwrite(&carro, sizeof(Carros), 1, car); //escreve o registro no arquivo
 
     fflush(car);
     printf("Deseja adicionar mais um carro a lista de automóveis? (s/n): \n");
@@ -63,7 +63,7 @@ void addCarro(){
     }
     fclose(car);
 }
-
+//esta função imprime todos os carros no arquivo.
 void tdsCarros() {
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
@@ -87,7 +87,7 @@ void tdsCarros() {
     system("pause");
     fclose(fp);
 }
-
+//esse arquivo busca um carro pelo seu ID
 void mostraCarro() {
     system("cls");
     Carros carro;
@@ -102,7 +102,7 @@ void mostraCarro() {
         printf("Erro ao localizar o registro\n");
         return;
     }
-    size = ftell(fp);
+    size = ftell(fp);//a variável size recebe o tamanho do arquivo
     if(size == -1) {
         printf("Não há registros\n");
         return;
@@ -111,7 +111,7 @@ void mostraCarro() {
         printf("Erro ao localizar o registro\n");
         return;
     }
-    records = size / sizeof(Carros);
+    records = size / sizeof(Carros); //divide o arquivo em secções por registro
     for(count = 0; count < records; count++) {
         fread(&carro, sizeof(Carros), 1, fp);
         if(carro.id == id) {
@@ -148,10 +148,10 @@ void mostraCarro() {
     system("pause");
     fclose(fp);
 }
-
+//essa função atualiza os dados de um carro, usando uma lógica similar a mostraCarro para identifica-lo
 void updateCarro() {
     system("cls");
-    FILE *fp = fopen("Carros.dat", "r+b");
+    FILE *fp = fopen("Carros.dat", "r+b"); //abrindo em r+b para ler e escrever no arquivo
     Carros carro;
     char op;
     int id, size, count, records;
@@ -159,7 +159,7 @@ void updateCarro() {
     scanf("%d", &id);
 
     if (fseek(fp, 0, SEEK_END) == -1) {
-        printf("Erro ao localizar o registro\n");
+        printf("Erro ao localizar o arquivo\n");
         return;
     }
     size = ftell(fp);
@@ -175,7 +175,7 @@ void updateCarro() {
     for (count = 0; count < records; count++) {
         fread(&carro, sizeof(Carros), 1, fp);
         if (carro.id == id) {
-            printf("Oie");
+            
             printf("entre com a identificação nova do carro: \n");
             scanf("%d", &carro.id);
 
@@ -206,8 +206,8 @@ void updateCarro() {
             printf("entre com a nova disponibilidade do carro: \n");
             scanf("%d", &carro.dispo);
 
-            fseek(fp, -(int)sizeof(Carros), SEEK_CUR);
-            fwrite(&carro, sizeof(Carros), 1, fp);
+            fseek(fp, -(int)sizeof(Carros), SEEK_CUR); //posiciona o ponteiro no início do registro
+            fwrite(&carro, sizeof(Carros), 1, fp); //reescreve o registro com os novos dados
             break;
         }
     }
@@ -224,7 +224,7 @@ void updateCarro() {
         updateCarro();
     }
 }
-
+//função que busca o carros por modelo, ou por motor(o float do motor)
 void searchCarro(){
     Carros carro;
     FILE *fp = fopen("Carros.dat", "rb");
@@ -239,6 +239,7 @@ void searchCarro(){
         case 1:
             printf("Insira o modelo do carro a ser buscado: \n");
             scanf("%s", &modelo);
+            //checa a existência do arquivo e do registro
             if(fseek(fp, 0, SEEK_END) == -1) {
                 printf("Erro ao localizar o registro\n");
                 return;
@@ -325,7 +326,7 @@ void addCliente(){
     system("cls"); //Limpa a tela do programa.
     Clientes cliente;
     char op;
-    FILE *fp = fopen("Clientes.dat", "ab");//Cria o arquivo binário "Clientes.dat". Se ele já existir, então apenas abre em modo de escrita.
+    FILE *fp = fopen("Clientes.dat", "ab");//*Cria o arquivo binário "Clientes.dat". Se ele já existir, então apenas abre em modo de escrita.
 
     printf("Digite seu CPF: \n");
     scanf(" %s", cliente.cpf);
