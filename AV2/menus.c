@@ -7,10 +7,13 @@ void menu();
 void menuCarro();
 void menuClientes();
 void menuLocacoes();
-//menu principal
+//Menu principal
 void menu(){
     int op;
-    printf("Selecione a opção: \n 1: carros \n 2: clientes \n 3: locações \n 9: sair.\n\n");
+    printf("###########################################################\n");
+    printf("Programa Empresarial de Gestão para Loja Locadora de Carros\n");
+    printf("###########################################################\n");
+    printf("Selecione a opção: \n 1: Carros \n 2: Clientes \n 3: Locações \n 9: Sair.\n\n");
     scanf("%d", &op);
     //verifica se as opções são válidas e chamam as funções de cada opção.
     system("cls"); //limpa a tela
@@ -25,10 +28,14 @@ void menu(){
             menuLocacoes();
             break;
         case 9:
-            printf("até mais");
+            printf("Até mais");
+            system("pause");
             break;
         default:
             printf("Opção inválida. Favor selecionar uma opção válida.");
+            system("pause");
+            system("cls");
+            menu();
             break;
     }
 
@@ -36,6 +43,9 @@ void menu(){
 //menu da opção "carros" do menu principal
 void menuCarro(){
     int opcao;
+    printf("################################\n");
+    printf("Menu para Manipualação de Carros\n");
+    printf("################################\n\n");
     printf("1: Cadastrar carro novo\n");
     printf("2: Atualizar informações de um carro\n");
     printf("3: Mostrar informações de um carro\n");
@@ -70,10 +80,14 @@ void menuCarro(){
             menu();
             break;
         case 9:
-            printf("até mais.");
+            printf("Até mais.");
+            system("pause");
             break;
         default:
-            printf("Opção inválida");
+            printf("Opção inválida. Favor selecionar uma opção válida.");
+            system("pause");
+            system("cls");
+            menuCarro();
             break;
 
     }
@@ -84,6 +98,9 @@ void menuCarro(){
 //menu da opção "clientes" do menu principal
 void menuClientes(){
     int op;
+    printf("##################################\n");
+    printf("Menu para Manipualação de Clientes\n");
+    printf("##################################\n\n");
     printf("1: Cadastrar cliente\n");
     printf("2: Atualizar informações de um cliente\n");
     printf("3: Mostrar locações realizadas\n");
@@ -114,10 +131,13 @@ void menuClientes(){
             showIdade();
             break;
         case 9:
-            printf("até mais.");
+            printf("Até mais.");
+            system("pause");
             break;
         default:
-            printf("Opção inválida");
+            printf("Opção inválida. Favor selecionar uma opção válida.");
+            system("pause");
+            system("cls");
             menuClientes();
             break;
 
@@ -126,6 +146,9 @@ void menuClientes(){
 //menu da opção "Locações" do menu principal
 void menuLocacoes(){
     int op;
+    printf("##################################\n");
+    printf("Menu para Manipualação de Locações\n");
+    printf("##################################\n\n");
     printf("1: Nova locação\n");
     printf("2: Encerrar locação\n");
     printf("3: Listar locações atuais.\n");
@@ -143,10 +166,14 @@ void menuLocacoes(){
             mostraLocacao();
             break;
         case 9:
-            printf("até mais.");
+            printf("Até mais.");
+            system("pause");
             break;
         default:
-            printf("Opção inválida");
+            printf("Opção inválida. Favor selecionar uma opção válida.");
+            system("pause");
+            system("cls");
+            menuLocacoes();
             break;
     }
 }
