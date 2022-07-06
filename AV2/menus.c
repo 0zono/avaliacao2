@@ -38,7 +38,7 @@ void menu(){
             menu();
             break;
     }
-
+    system("cls");
 }
 //menu da opção "carros" do menu principal
 void menuCarro(){
@@ -91,8 +91,7 @@ void menuCarro(){
             break;
 
     }
-
-
+    system("cls");
 }
 
 //menu da opção "clientes" do menu principal
@@ -140,8 +139,8 @@ void menuClientes(){
             system("cls");
             menuClientes();
             break;
-
     }
+    system("cls");
 }
 //menu da opção "Locações" do menu principal
 void menuLocacoes(){
@@ -176,4 +175,5 @@ void menuLocacoes(){
             menuLocacoes();
             break;
     }
+    system("cls");
 }
