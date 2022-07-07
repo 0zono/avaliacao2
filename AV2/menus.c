@@ -103,7 +103,7 @@ void menuClientes(){
     printf("##################################\n\n");
     printf("1: Cadastrar cliente\n");
     printf("2: Atualizar informações de um cliente\n");
-    printf("3: Mostrar locações realizadas\n");
+    printf("3: Buscar cliente por cpf\n");
     printf("4: Listar todos os clientes\n");
     printf("5: Listar clientes com mais de 200 pontos\n");
     printf("6: Listar clientes entre 18 e 25 anos\n");
@@ -158,6 +158,7 @@ void menuLocacoes(){
     printf("2: Encerrar locação\n");
     printf("3: Listar locações atuais.\n");
     printf("4: Voltar para o menu principal\n");
+    printf("5: Disponibilizar carros para venda\n");
     printf("9: Sair.\n\n");
 
     scanf("%d", &op);
@@ -174,6 +175,9 @@ void menuLocacoes(){
         case 4:
             menu();
             system("cls");
+            break;
+        case 5:
+            venCarro();
             break;
         case 9:
             printf("Até mais.");
