@@ -74,7 +74,7 @@ void loca() {
     fclose(loc);
     printf("Deseja realizar outra locacao? (s/n) ");
     char op;
-    scanf("%c", &op);
+    scanf(" %c", &op);
     if (op == 's' && op == 'S') {
         system("cls");
         loca();
@@ -114,12 +114,11 @@ void mostraLocacao(){
             printf("Locacao em andamento.\n\n");
         }
     }
-    printf("Quantidade de locações em andamento no total: %d", cont);
-    system("pause");
+    printf("Quantidade de locações em andamento no total: %d \n", cont);
     fclose(loc);
     printf("Deseja voltar ao menu principal? (s/n) ");
     char op;
-    scanf("%c", &op);
+    scanf(" %c", &op);
     if (op == 's' && op == 'S') {
         system("cls");
         menu();
@@ -166,15 +165,15 @@ void devolucao() {
             if(lc.devolucao.hora-lc.inicio.hora > 0) {
                 dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
                        (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
-                        lc.valor = lc.valor * dias;
+                lc.valor = lc.valor * dias;
             }
             else{ //caso seja entregado com antecedência, haverá um desconto.
                 dias = ((lc.devolucao.ano - lc.inicio.ano) * ano) + (mes[lc.devolucao.mes - 1] + lc.devolucao.dia) -
                        (mes[lc.inicio.mes - 1] + lc.inicio.dia)+1;
-                        desc = (lc.valor/24)*lc.devolucao.hora-lc.inicio.hora;
-                        lc.valor = (lc.valor*dias)-desc;
+                desc = (lc.valor/24)*lc.devolucao.hora-lc.inicio.hora;
+                lc.valor = (lc.valor*dias)-desc;
             }
-   
+
             pontos = (int)lc.valor;
             lc.fina = 1;
             fseek(loc, -(int)sizeof(Locacoes), SEEK_CUR);
@@ -199,7 +198,7 @@ void devolucao() {
             for (int i = 0; i < records; i++) {
                 fread(&cliente, sizeof(Clientes), 1, cli);
                 if (strcmp(cliente.cpf, lc.cpflocatario) == 0) {
-                    cliente.pontos = pontos;
+                    cliente.pontos = cliente.pontos + pontos;
                     fseek(cli, -(int)sizeof(Clientes), SEEK_CUR);
                     fwrite(&cliente, sizeof(Clientes), 1, cli);
                     break;
@@ -210,9 +209,9 @@ void devolucao() {
             fclose(cli);
             fclose(loc);
             printf("Locacao finalizada com sucesso.\n\n");
-            printf("Deseja realizar outra locação?? (s/n) ");
+            printf("Deseja finalizar outra locação?? (s/n) ");
             char op;
-            scanf("%c", &op);
+            scanf(" %c", &op);
             if (op == 's' && op == 'S') {
                 system("cls");
                 devolucao();
