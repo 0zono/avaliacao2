@@ -130,11 +130,10 @@ void mostraCarro() {
             else{
                 printf("Disponibilidade: Indisponível\n");
             }
-            system("pause");
             break;
         }
     }
-    printf("Deseja voltar ao menu principal?(s/S=Sim, caso contrário, o programa se encerrará.) \n");
+    printf("Deseja buscar outro carro? (s/n) \n");
     scanf(" %c", &op);
     if (op != 's' && op != 'S'){
         fclose(fp);
@@ -175,7 +174,7 @@ void updateCarro() {
     for (count = 0; count < records; count++) {
         fread(&carro, sizeof(Carros), 1, fp);
         if (carro.id == id) {
-            
+
             printf("entre com a identificação nova do carro: \n");
             scanf("%d", &carro.id);
 
@@ -326,7 +325,8 @@ void addCliente(){
     system("cls"); //Limpa a tela do programa.
     Clientes cliente;
     char op;
-    FILE *fp = fopen("Clientes.dat", "ab");//*Cria o arquivo binário "Clientes.dat". Se ele já existir, então apenas abre em modo de escrita.
+    FILE *fp = fopen("Clientes.dat", "ab");
+    //*Cria o arquivo binário "Clientes.dat". Se ele já existir, então apenas abre em modo de escrita.
 
     printf("Digite seu CPF: \n");
     scanf(" %s", cliente.cpf);
@@ -373,7 +373,7 @@ void updateCliente() {
     printf("Entre com o cpf do cadastro a ser atualizado: \n"); //Solicita o CPF do cliente.
     scanf("%s", cpf);
     getchar();
-    
+
     //Sequência de 3 if's para verificar se há registros ou não no arquivo.
     if (fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o arquivo\n");
@@ -409,8 +409,8 @@ void updateCliente() {
             scanf(" %[^\n]s", cli.cidade);
 
             cli.pontos = 0;
-
-            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR); //Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado. 
+            //Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);
             fwrite(&cli, sizeof(Clientes), 1, fp); //Escreve todos os dados no arquivo.
             break;
         }
@@ -440,7 +440,7 @@ void mostraCliente(){
     scanf(" %s", cpf);
     getchar();
     int size, count, records;//Variáveis para manipular o tamanho do arquivo e os laços da estrutura de repetição FOR.
-    
+
     //Sequência de 3 if's para verificar se há registros ou não no arquivo.
     if (fseek(fp, 0, SEEK_END) == -1) {
         printf("Erro ao localizar o registro\n");
@@ -467,7 +467,8 @@ void mostraCliente(){
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n", cli.pontos);
 
-            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            fseek(fp, -(int)sizeof(Clientes), SEEK_CUR);
+            //Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
             break;//Rompe o laço, já que o cliente foi encontrado.
         }
     }
@@ -491,7 +492,8 @@ void tdsClientes(){
     FILE *fp = fopen("Clientes.dat", "rb");//Abre o arquivo "Clientes.dat" em modo de leitura.
     Clientes cli;
     char dnv;
-    while(fread(&cli, sizeof(Clientes), 1, fp)){//Laço WHILE para listar todos os clientes cadastrados no arquivo "Clientes.dat".
+    while(fread(&cli, sizeof(Clientes), 1, fp)){
+        //Laço WHILE para listar todos os clientes cadastrados no arquivo "Clientes.dat".
         printf("CPF: %s\n", cli.cpf);
         printf("Idade: %d\n", cli.idade);
         printf("Nome: %s\n", cli.nome);
@@ -535,7 +537,8 @@ void showIdade(){
     }
     records = size / sizeof(Clientes);
     printf("Aqui estão todos os clientes entre 18 a 25 anos: \n\n");
-    for (count = 0; count < records; count++) {//Laço FOR para fazer a verificação e mostrar quais clientes estão na faixa requerida no printf acima.
+    for (count = 0; count < records; count++) {
+        //Laço FOR para fazer a verificação e mostrar quais clientes estão na faixa requerida no printf acima.
         fread(&cli, sizeof(Clientes), 1, fp);
         if ((cli.idade >= 18) && (cli.idade <= 25)) {
             aux++;//Adição unária à variável "aux" para uso no if posterior
@@ -546,8 +549,8 @@ void showIdade(){
             printf("Estado de moradia do cliente: %s \n", cli.estado);
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
-
-            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            //Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);
             break;//Finaliza o if.
         }
     }
@@ -594,11 +597,13 @@ void showPontos(){
             printf("Cidade de moradia do cliente: %s \n", cli.cidade);
             printf("Pontos que o cliente tem: %d \n\n", cli.pontos);
 
-            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);//Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.
+            fseek(fp, -(int) sizeof(Clientes), SEEK_CUR);//*
+            // Coloca o ponteiro no início do struct para que a função não grave os arquivos no local errado.*
             break;//Finaliza o if.
         }
     }
-    if(aux == 0){//Verifica se o laço FOR for detectado detectou algum cliente na faixa de idade. Se não detectou, então exibe a mensagem abaixo.
+    if(aux == 0){//*Verifica se o laço FOR for detectado detectou algum cliente na faixa de idade.
+        // Se não detectou, então exibe a mensagem abaixo.*
         printf("Não há nenhum cliente com + de 200 pontos. \n\n");
     }
     fclose(fp);//Fecha o arquivo.
